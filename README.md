@@ -13,7 +13,7 @@ Frameworks & Tools: PostgreSQL, Docker, Hugging Face Transformers
 ├── docker-compose.yml         
 ├── requirements.txt           
 ├── templates/                 
-│   └── index.html
+│   └── index.html \n
 ├── .env.example              
 └── .gitignore               
 
