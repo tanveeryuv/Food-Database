@@ -14,6 +14,7 @@ Frameworks & Tools: PostgreSQL, Docker, Hugging Face Transformers
 ├── requirements.txt           
 ├── templates/                 
 │   └── index.html
+
 ├── .env.example              
 └── .gitignore               
 
