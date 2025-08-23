@@ -1,11 +1,11 @@
-Food Database
+#Food Database
 A Flask-based web application that imports, stores, and displays nutritional data from the OpenFoodFacts API, with advanced NLP-generated insights for each product.
 
-Skills & Technologies
+#Skills & Technologies
 Languages: Python, SQL
 Frameworks & Tools: PostgreSQL, Docker, Hugging Face Transformers
 
-Project Structure
+#Project Structure
 ├── app.py                     
 ├── importer.py                
 ├── nlp_insights.py   
