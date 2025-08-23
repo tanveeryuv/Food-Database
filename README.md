@@ -19,6 +19,7 @@ Frameworks & Tools: PostgreSQL, Docker, Hugging Face Transformers
 
 ## Setup Instructions
 ### 1. Clone the Repository
+'''bash
 git clone https://github.com/yourusername/Food-Database.git
 cd Food-Database
 
