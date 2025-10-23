@@ -12,8 +12,7 @@ Frameworks & Tools: PostgreSQL, Docker, Hugging Face Transformers
 ├── schema.sql                 
 ├── docker-compose.yml         
 ├── requirements.txt           
-├── templates/                 
-│   └── index.html  
+├── index.html  
 ├── .env.example              
 └── .gitignore               
 
@@ -36,41 +35,30 @@ POSTGRES_PASSWORD=your_password
 POSTGRES_DB=food_db
 DB_HOST=db
 DB_PORT=5432
-API_KEY=your_api_key_here  # Optional, if using NLP API
 ```
-Note: Never push .env to GitHub. Keep it local for security.
 
 ### 3. Start PostgreSQL with Docker
 ```bash
 docker-compose up -d
 ```
-This will start a PostgreSQL container on port 5432.
 Verify the container is running in Docker Desktop or via:
 ```bash
 docker ps
 ```
 
-### 4. Create Database Schema
-replace all text in caps as needed
-```bash
-psql -h HOST -U USER -d DATABASE -f schema.sql
-```
-
-### 5. Install Python Dependencies
+### 4. Install Python Dependencies
 ```bash
 pip install -r requirements.txt
 ```
 
-### 6. Import Food Data
+### 5. Import Food Data
 ```bash
 python importer.py
 ```
 Fetches data from OpenFoodFacts for specified categories and countries.
 Populates your PostgreSQL database with nutritional information and NLP-generated insights.
 
-### 7. Run the Web Application
+### 6. Run the Web Application
 ```bash
 python app.py
 ```
-Open a browser at http://127.0.0.1:5000 to access the web interface.
-Use filters to search by category, country, or nutritional values.
