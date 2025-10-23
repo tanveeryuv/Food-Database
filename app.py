@@ -78,10 +78,8 @@ def filter_products(min_calories=None, max_calories=None,
 @app.route("/", methods=["GET", "POST"])
 def index():
     products = []
-    categories = ["snacks", "beverages", "meats", "desserts", "meals", "dairies", "canned foods", 
-                  "breads", "fats", "fruits and vegetables based foods", "cereals and their products",
-                  "nuts and their products"] 
-    countries = ["canada","france","united states","united kingdom","ireland","australia","norway","sweden","mauritius"]
+    categories = "snacks,beverages,meats,desserts,dairies,breads,fruits and vegetables based foods".split(",")
+    countries = "canada,united states,united kingdom".split(",")
 
     if request.method == "POST":
         category = request.form.get("category")

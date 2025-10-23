@@ -37,8 +37,6 @@ def init_db():
     conn.close()
 
 
-
-
 def fetch_page(categories=None, countries=None, page=1, page_size=PAGE_SIZE_DEFAULT):
     params = {
         "action": "process",
@@ -96,10 +94,10 @@ ingredients = EXCLUDED.ingredients,
 country = EXCLUDED.country,
 image_url = EXCLUDED.image_url,
 insights = EXCLUDED.insights,
-imported_at = CURRENT_TIMESTAMP
+imported_at = CURRENT_TIMESTAMP;
 """
-def import_products(categories=None, countries=None, max_pages=5, page_size=PAGE_SIZE_DEFAULT):
-    print(f"Importing categories={categories!r}, countries={countries!r}")
+def import_products(categories=None, countries=None, max_pages=1, page_size=20):
+    print(f"Importing categories={categories}, countries={countries}")
     conn = psycopg2.connect(**DB_CONFIG)
     cur = conn.cursor()
 
@@ -123,16 +121,16 @@ def import_products(categories=None, countries=None, max_pages=5, page_size=PAGE
                 for p in products:
                     insights = generate_insight(p, category)
                     rows.append((
-                        p.get("code"),
-                        p.get("product_name"),
-                        ", ".join(p.get("brands", "").split(",")) if p.get("brands") else None,
+                        p.get("code", ""),
+                        p.get("product_name", ""),
+                        p.get("brands", ""),
                         category,
-                        p.get("nutriments", {}).get("energy-kcal_100g"),
-                        p.get("nutriments", {}).get("fat_100g"),
-                        p.get("nutriments", {}).get("sugars_100g"),
-                        p.get("nutriments", {}).get("proteins_100g"),
-                        p.get("nutriments", {}).get("salt_100g"),
-                        p.get("nutriments", {}).get("fiber_100g"),
+                        p.get("nutriments", {}).get("energy-kcal_100g", 0),
+                        p.get("nutriments", {}).get("fat_100g", 0),
+                        p.get("nutriments", {}).get("sugars_100g", 0),
+                        p.get("nutriments", {}).get("proteins_100g", 0),
+                        p.get("nutriments", {}).get("salt_100g", 0),
+                        p.get("nutriments", {}).get("fiber_100g", 0),
                         p.get("nutriscore_grade"),
                         p.get("ecoscore_grade"),
                         p.get("ingredients_text"),
@@ -152,9 +150,8 @@ def import_products(categories=None, countries=None, max_pages=5, page_size=PAGE
 
 if __name__ == "__main__":
     init_db()
-    categories = os.getenv("OFF_CATEGORIES", "chocolate,snacks").split(",")
-    countries = os.getenv("OFF_COUNTRIES", "canada,united-states").split(",")
+    categories = "snacks,meats,breads,fruits and vegetable based foods".split(",")
+    countries = "canada".split(",")
 
-    import_products(categories, countries, max_pages=int(os.getenv("OFF_MAX_PAGES", 5)), 
-                    page_size=int(os.getenv("OFF_PAGE_SIZE", PAGE_SIZE_DEFAULT)))
+    import_products(categories, countries)
     

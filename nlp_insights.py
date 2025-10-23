@@ -1,32 +1,22 @@
 import os
 from transformers import pipeline
 
-# Load locally (downloads once, then cached in ~/.cache/huggingface)
 generator = pipeline("text2text-generation", model="google/flan-t5-large")
 
 def generate_insight(p, category):
-    # Build a structured description
     description = (
-        f"Food product: {p.get('product_name')}\n"
-        f"Category: {category}\n"
-        f"Calories: {p.get('nutriments', {}).get('energy-kcal_100g')} kcal\n"
-        f"Sugar: {p.get('nutriments', {}).get('sugars_100g')} g\n"
-        f"Proteins: {p.get('nutriments', {}).get('proteins_100g')} g\n"
-        f"Fat: {p.get('nutriments', {}).get('fat_100g')} g\n"
-        f"Salt: {p.get('nutriments', {}).get('salt_100g')} g\n"
-        f"Fiber: {p.get('nutriments', {}).get('fiber_100g')} g\n"
-        f"Nutriscore Grade: {p.get('nutriscore_grade'),}\n"
-        f"Ecoscore Grade {p.get('ecoscore_grade')}\n"
-        f"Ingredients{p.get('ingredients_text')} \n"
+        f"The food has {p.get('nutriments', {}).get('energy-kcal_100g')} calories. "
+        f"It has {p.get('nutriments', {}).get('sugars_100g')} grams of sugar. "
+        f"It has {p.get('nutriments', {}).get('proteins_100g')} grams of protein. "
+        f"It has {p.get('nutriments', {}).get('fat_100g')} grams of fat. "
+        f"It has: {p.get('nutriments', {}).get('salt_100g')} grams of salt. "
+        f"It has: {p.get('nutriments', {}).get('fiber_100g')} grams of fiber. "
+        f"Its ingredients are {p.get('ingredients_text')}."
     )
 
-    # Prompt for summarization / analysis
-    prompt = (
-        f"Please answer the following question and give the reasoning for your answer in less than 50 words:\n"
-        f"Is the following food healthy or unhealthy?:\n\n"
-        f"{description}\n"
-    )
+    prompt = "Determine if this food is healthy or unhealthy based on its nutritional information. "
+    prompt += description
 
-    result = generator(prompt, max_new_tokens=100, do_sample=False)
+    result = generator(prompt, max_length = 20)
     print(result[0]["generated_text"])
     return result[0]["generated_text"]
